@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,8 +28,16 @@ public class ItemCatController {
 	@RequestMapping("{page}")
 	@ResponseBody
 	public List<ItemCat> queryItemCatByPage(@PathVariable() Integer page,@RequestParam(value="row",defaultValue="10")Integer rows){
-		return this.itemCatService.queryItemCatByPage(page, rows);
+		
+		return this.itemCatService.queryByPage(page, rows);
+		//this.itemCatService.queryItemCatByPage(page, rows)
 	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	@ResponseBody
+	public List<ItemCat> queryItemByParentId(@RequestParam(value="id",defaultValue="0") Long parentId){
+		List<ItemCat> list = this.itemCatService.queryItemCatByParentId(parentId);
+		return list;
+	}
 	
 }
